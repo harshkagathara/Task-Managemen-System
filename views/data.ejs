@@ -65,20 +65,19 @@
 <script type="text/javascript">
 	$(document).ready(function () {
 		$("#form1").submit(function (event) {
-			event.preventDefault();
+			setTimeout(function(){// wait for 5 secs(2)
+          	 location.reload(); // then reload the page.(3)
+      		}, 100); 
+			// event.preventDefault();
 			$.ajax({
 				type: 'POST',
 				url: '/addTask',
 				data: $('#form1').serialize(),
 				dataType: "json",
 				success: function (response) {
-					if (response) {
-						location.reload();
-						onChange();
-						location.reload();
-						console.log(response)
-					}
-
+					onChange();
+					// window.location.href = '/dashboard';
+					// window.location.reload(true);
 				},
 				error: function () { }
 			})
@@ -90,25 +89,30 @@
 				url: '/tasklist',
 				dataType: "json",
 				success: function (response) {
-					if (response.status == 1) {
+					response.forEach(element => {
+						if (element.status == 1) {
 						// alert("jhy")
 						let html = `<div class="card">
-						<div class="card-header"> <h2>${response.task}</h2> 	<h6>${response.desciption}</h6></div>
+						<div class="card-header"> <h2>${element.task}</h2> 	<h6>${element.desciption}</h6></div>
 						<div class="card-body"> 
-							<h3>${response.status}</h3>
+							<h3>${element.status}</h3>
 						</div>
 					</div>`;
 						console.log($("#pendingTask").append(html));
 						// window.getElemetByid('')		
 					} else {
 						let html1 = `<div class="card">
-						<div class="card-header"> <h2>${response.task}</h2> 	<h6>${response.desciption}</h6></div>
+						<div class="card-header"> <h2>${element.task}</h2> 	<h6>${element.desciption}</h6></div>
 						<div class="card-body"> 
-							<h3>${response.status}</h3>
+							<h3>${element.status}</h3>
 						</div>
 					</div>`;
 						console.log($("#complatedTask").append(html1));
 					}
+					});
+
+					// location.reload();
+				
 
 				},
 				error: function () { }

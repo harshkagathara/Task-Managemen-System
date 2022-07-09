@@ -85,13 +85,20 @@ exports.AddTask = (req, res) => {
 	if (req.body != undefined) {
 		console.log(JSON.stringify(req.body))
 
+		let taskArr = JSON.parse((localStorage.getItem("alltask"))) 
+		 if( JSON.parse((localStorage.getItem("alltask"))) == undefined  ||  JSON.parse((localStorage.getItem("alltask"))) == null){
+			taskArr=[]
+		 }
+		// let taskArr =[];
 		let tasks = {};
 		tasks.task = req.body.task;
 		tasks.desciption = req.body.desciption;
 		tasks.status = req.body.status;
 		tasks.id = 2
 
-		localStorage.setItem('alltask', JSON.stringify(tasks));
+		taskArr.push(tasks);
+
+		localStorage.setItem('alltask', JSON.stringify(taskArr));
 		console.log(JSON.parse((localStorage.getItem("alltask"))))
 		res.send("hy");
 	}
