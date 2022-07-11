@@ -15,22 +15,13 @@ exports.Create = async (req, res) => {
 			Users.email = req.body.email;
 			Users.username = req.body.username;
 			Users.password = req.body.password;
-			// console.log(Users);
-			// localStorage.setItem('allusers',Users);
-			// JSON.parse((localStorage.getItem("allusers")))
+			
 			localStorage.setItem('allusers', JSON.stringify(Users));
-			// console.log(JSON.parse((localStorage.getItem("allusers"))));
-
-			// localStorage.setItem('pw', pw.value);
-			// const users = new User(req.body);
-			// try {
-			// 	await users.save();
+			
 			res.send({
 				"Success": "Success"
 			});
-			// } catch (error) {
-			// 	res.status(500).send(error);
-			// }
+			
 		}
 		else {
 			res.send({
