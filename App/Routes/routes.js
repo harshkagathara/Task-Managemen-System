@@ -12,6 +12,10 @@ router.get('/logout', user.LogOut);
 router.post('/addTask', user.AddTask);
 router.get('/tasklist', user.TaskList);
 
+router.post('/deleteTask', user.DeleteTask);
+router.post('/movetask', user.MoveTask);
+router.post('/allMovetask', user.AllMovetask);
+
 
 
 module.exports = router;

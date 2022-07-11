@@ -1,125 +1,217 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Task Management System</title>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
-</head>
-
-<body>
-	<div class="container mt-5">
-		<div class="row">
-			<div class="col-md-6">
-				<div class="card">
-					<div class="card-header">Pending</div>
-					<div class="card-body">
-						<div class="card">
-							<div class="card-body">
-								<form id="form1" method="post">
-									<div class="form-group">
-										<label>Task</label>
-										<input type="text" class="form-control" placeholder="Enter Task" name="task"
-											id="task">
-									</div>
-									<div class="form-group">
-										<label>Desciption:</label>
-										<input type="text" class="form-control" placeholder="Enter Desciption"
-											name="desciption" id="desciption">
-									</div>
-									<div class="form-group">
-										<label for="sel1">Status</label>
-										<select class="form-control" id="status" name="status">
-											<option id="1" value="1">Pending</option>
-											<option id="2" value="2">Completed</option>
-										</select>
-									</div>
-
-									<button type="submit" class="btn btn-primary">Create</button>
-								</form>
-							</div>
-						</div>
-						<br>
-						<div id="pendingTask"></div>
-
-					</div>
-				</div>
-			</div>
-			<div class="col-md-6">
-				<div class="card">
-					<div class="card-header">Complited</div>
-					<div class="card-body">
-						<div id="complatedTask"></div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</body>
-
+   <head>
+      <meta charset="UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Task Management System</title>
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+      <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+      <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+   </head>
+   <body>
+      <div class="container mt-5">
+         <div class="row">
+            <div class="col-md-12">
+               <button type="button" class="btn btn-success mb-3 float-right" data-toggle="modal" data-target="#myModal">
+               Add New Task Here
+               </button>
+               <div class="modal" id="myModal">
+                  <div class="modal-dialog">
+                     <div class="modal-content">
+                        <div class="modal-header">
+                           <h4 class="modal-title">Add Task Here</h4>
+                           <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                           <div class="card">
+                              <div class="card-body">
+                                 <form id="form1" method="post">
+                                    <div class="form-group">
+                                       <label>Task</label>
+                                       <input type="text" class="form-control" placeholder="Enter Task" name="task"
+                                          id="task">
+                                    </div>
+                                    <div class="form-group">
+                                       <label>Desciption:</label>
+                                       <input type="text" class="form-control" placeholder="Enter Desciption"
+                                          name="desciption" id="desciption">
+                                    </div>
+                                    <div class="form-group">
+                                       <label for="sel1">Status</label>
+                                       <select class="form-control" id="status" name="status">
+                                          <option id="1" value="1">Pending</option>
+                                          <option id="2" value="2">Completed</option>
+                                       </select>
+                                    </div>
+                                    <button type="button" id="SubmitBtn" class="btn btn-primary">Create</button>
+                                 </form>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="modal-footer">
+                           <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="col-md-6">
+               <div class="card">
+                  <div class="card-header">Pending</div>
+                  <div class="card-body" id="PendingVal">
+                     <input type="button" class="mb-2" onclick='selectsPending()' value="Select All"/>  
+                     <input type="button" onclick='MoveTasks()' value="Move All to Complited"/>  
+                     <br>
+                     <div id="pendingTask"></div>
+                  </div>
+               </div>
+            </div>
+            <div class="col-md-6">
+               <div class="card">
+                  <div class="card-header">Complited</div>
+                  <div class="card-body" id="ComplitedVal">
+                     <input type="button" class="mb-2" onclick='selectsComp()' value="Select All"/>  
+                     <input type="button" onclick='MoveTasks()' value="Move All to Pending"/>  
+                     <br>
+                     <div id="complatedTask"></div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </body>
 </html>
-
 <script type="text/javascript">
-	$(document).ready(function () {
-		$("#form1").submit(function (event) {
-			setTimeout(function(){// wait for 5 secs(2)
-          	 location.reload(); // then reload the page.(3)
-      		}, 100); 
-			// event.preventDefault();
-			$.ajax({
-				type: 'POST',
-				url: '/addTask',
-				data: $('#form1').serialize(),
-				dataType: "json",
-				success: function (response) {
-					onChange();
-					// window.location.href = '/dashboard';
-					// window.location.reload(true);
-				},
-				error: function () { }
-			})
-		});
-
-		function onChange() {
-			$.ajax({
-				type: 'GET',
-				url: '/tasklist',
-				dataType: "json",
-				success: function (response) {
-					response.forEach(element => {
-						if (element.status == 1) {
-						// alert("jhy")
-						let html = `<div class="card">
-						<div class="card-header"> <h2>${element.task}</h2> 	<h6>${element.desciption}</h6></div>
-						<div class="card-body"> 
-							<h3>${element.status}</h3>
-						</div>
-					</div>`;
-						console.log($("#pendingTask").append(html));
-						// window.getElemetByid('')		
-					} else {
-						let html1 = `<div class="card">
-						<div class="card-header"> <h2>${element.task}</h2> 	<h6>${element.desciption}</h6></div>
-						<div class="card-body"> 
-							<h3>${element.status}</h3>
-						</div>
-					</div>`;
-						console.log($("#complatedTask").append(html1));
-					}
-					});
-
-					// location.reload();
-				
-
-				},
-				error: function () { }
-			})
-			// 
-		}
-		onChange();
-	});
-
+   $("#SubmitBtn").click(function () {
+   	$.ajax({
+   		type: 'POST',
+   		url: '/addTask',
+   		data: $('#form1').serialize(),
+   		dataType: "json",
+   		success: function (response) {
+   			console.log(response)
+   			onChange();
+   			location.reload();
+   		},
+   		error: function () { }
+   	})
+   });
+   
+   $(document).ready(function () {
+   onChange();
+   })
+   
+   function DeleteTask(id){
+   $.ajax({
+   		type: 'POST',
+   		url: '/deleteTask',
+   		data: {id:id},
+   		dataType: "json",
+   		success: function (response) {
+   			onChange();
+   			location.reload();
+   		},
+   		error: function () { }
+   	})
+   }
+   function MoveBtnto(id){
+   $.ajax({
+   		type: 'POST',
+   		url: '/Movetask',
+   		data: {id:id},
+   		dataType: "json",
+   		success: function (response) {
+   			onChange();
+   			location.reload();
+   		},
+   		error: function () { }
+   	})
+   }
+   function onChange() {
+   	$.ajax({
+   		type: 'GET',
+   		url: '/tasklist',
+   		dataType: "json",
+   		success: function (response) {
+   			if(response.length < 1){
+   					$("#ComplitedVal").hide();
+   					$("#PendingVal").hide();
+   				}
+   			response.forEach(element => {
+   				
+   				if (element.status == 1) {
+   				let html = "";
+   				 html = `<div class="card mb-2">
+   				<div class="card-header">
+   					<input type="checkbox" name="chkpen" value = "${element.id}">
+			
+   					<button type="button"  onclick="DeleteTask(${element.id})" class="btn btn-danger float-right"><i class="fas fa-trash "></i></button>
+   					<h2>${element.task}</h2> 
+   				</div>
+   				<div class="card-body"> 
+   					<h6>${element.desciption}</h6>
+   					<button type="button" onclick="MoveBtnto(${element.id})" class="btn btn-primary">Move to Complate</button>
+   					
+   				</div>
+   			</div>`;
+   				console.log($("#pendingTask").append(html));
+   			} else {
+   				let html1 = "";
+   				  html1 = `<div class="card mb-2">
+   				<div class="card-header">
+   					<input type="checkbox" name="chkcom" value = "${element.id}">
+   					<button type="button"  onclick="DeleteTask(${element.id})" class="btn btn-danger float-right"><i class="fas fa-trash "  ></i></button>
+   					<h2>${element.task}</h2> 
+   					</div>
+   				<div class="card-body"> 
+   					<h6>${element.desciption}</h6>
+   					<button type="button" onclick="MoveBtnto(${element.id})" class="btn btn-primary">Move to Pending</button>
+   					
+   				</div>
+   			</div>`;
+   				console.log($("#complatedTask").append(html1));
+   			}
+   			});
+   		},
+   		error: function () { }
+   	})
+   }
+      function selectsPending(){  
+                 let ele=document.getElementsByName('chkpen');  
+                 for(var i=0; i<ele.length; i++){  
+                     if(ele[i].type=='checkbox')  
+   				ele[i].checked=true;  
+                 }  
+             }  
+   	function selectsComp(){  
+                 let ele=document.getElementsByName('chkcom');  
+                 for(var i=0; i<ele.length; i++){  
+                     if(ele[i].type=='checkbox')  
+   				ele[i].checked=true;  
+                 }  
+             }  
+	function MoveTasks(){  
+   		var lang = [];
+		   lang.push("hye")
+   		$('input[type="checkbox"]:checked').each(function(){
+   			lang.push(this.value);
+   		});
+   
+   		$.ajax({
+   		type: 'POST',
+   		url: '/allMovetask',
+   		data: {selectTa:lang},
+   		dataType: "json",
+   		success: function (response) {
+   			
+   			onChange();
+   			location.reload();
+   		},
+   		error: function () { }
+   	})
+   	}     
 </script>

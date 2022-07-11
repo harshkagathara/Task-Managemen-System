@@ -94,13 +94,13 @@ exports.AddTask = (req, res) => {
 		tasks.task = req.body.task;
 		tasks.desciption = req.body.desciption;
 		tasks.status = req.body.status;
-		tasks.id = 2
+		tasks.id = Math.floor(Math.random() * 10000)
 
 		taskArr.push(tasks);
 
 		localStorage.setItem('alltask', JSON.stringify(taskArr));
 		console.log(JSON.parse((localStorage.getItem("alltask"))))
-		res.send("hy");
+		res.send(taskArr);
 	}
 }
 
@@ -109,3 +109,64 @@ exports.TaskList = (req, res) => {
 	res.send(taskData);
 }
 
+exports.DeleteTask = (req, res) => {
+	if(req.body.id != undefined){
+		const taskData = JSON.parse((localStorage.getItem("alltask")));
+
+		taskData.forEach(function (value, i) {
+			if(value.id == req.body.id){
+			taskData.splice(i,1)
+			}
+		});
+		localStorage.removeItem("alltask");
+		localStorage.setItem('alltask', JSON.stringify(taskData));
+		res.send(taskData)
+		
+	}
+}
+exports.AllMovetask = (req, res) => {
+	const taskData = JSON.parse((localStorage.getItem("alltask")));
+	let reqArr  = req.body
+	for (let key in reqArr) {
+		if('selectTa[]' == key){
+			reqArr[key].forEach(element => {
+				taskData.forEach(function (value, i) {
+					if(value.id == element){
+						if(value.status ==  1){
+							value.status = 2;
+						}
+						else if(value.status == 2){
+							value.status = 1;
+						}
+					}
+				});
+			});
+		}
+	  }
+	  localStorage.removeItem("alltask");
+	  localStorage.setItem('alltask', JSON.stringify(taskData));
+	  res.send(taskData)
+
+}
+
+	exports.MoveTask = (req, res) => {
+		if(req.body.id != undefined){
+			const taskData = JSON.parse((localStorage.getItem("alltask")));
+			taskData.forEach(function (value, i) {
+				if(value.id == req.body.id){
+					console.log(value.status)
+					if(value.status ==  1){
+						value.status = 2;
+					}
+					else{
+						value.status = 1;
+					}
+					console.log(value.status)
+				}
+			});
+			localStorage.removeItem("alltask");
+			localStorage.setItem('alltask', JSON.stringify(taskData));
+			res.send(taskData)
+		}
+	}
+	
